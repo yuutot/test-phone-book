@@ -10,11 +10,6 @@
 
     <div class="starter-template">
         <h1>Spring Boot Web JSP Example</h1>
-        <h2>Message: ${message}</h2>
-        <h2>UserId: ${user.getId()}</h2>
-        <h2>Name: ${user.getName()}</h2>
-        <h2>Surname: ${user.getSurname()}</h2>
-        <h2>Login: ${user.getLogin()}</h2>
     </div>
 </div>
 
