@@ -1,0 +1,13 @@
+#OS temp files#
+*~
+
+# Maven build files #
+target/
+
+# IDEA files #
+/.idea
+.idea/*
+*.iml
+*.ipr
+*.iws
+*.idea/target
