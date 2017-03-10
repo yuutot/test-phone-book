@@ -7,7 +7,6 @@
 </head>
 <body>
 <div class="container">
-
     <div class="starter-template">
         <h1>User create!</h1>
         <h2>UserId: ${user.getId()}</h2>
