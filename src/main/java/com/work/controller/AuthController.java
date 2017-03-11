@@ -2,6 +2,7 @@ package com.work.controller;
 
 import com.work.entity.User;
 import com.work.repository.UserRepository;
+import com.work.service.Verify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -26,13 +28,39 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value = "/create/{login}/{password}", method = RequestMethod.GET)
-    public String createUser(Map<String, Object> model,
-                             @PathVariable String login,
-                             @PathVariable String password) {
+    @Autowired
+    private Verify verify;
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register(Model model){
+        return "register";
+    }
+    @RequestMapping(value = "/reg", method = RequestMethod.POST)
+    public String registerHandler(@RequestParam(value = "username") String username,
+                                  @RequestParam(value = "password") String password,
+                                  @RequestParam(value = "name") String name,
+                                  @RequestParam(value = "surname") String surname,
+                                  @RequestParam(value = "patronymic") String patronymic,
+                                  Model model){
+
+        if(!verify.isValidLogin(username)){
+            return "error";
+        }
+        if(!verify.isValidPassword(password)){
+            return "error";
+        }
+        if(!verify.isValidName(name)){
+            return "error";
+        }
+        if(!verify.isValidName(surname)){
+            return "error";
+        }
+        if(!verify.isValidName(patronymic)){
+            return "error";
+        }
         User user = new User();
-        user.setLogin(login);
-        MessageDigest crypt = null;
+        user.setLogin(username);
+        MessageDigest crypt;
         try {
             crypt = MessageDigest.getInstance("SHA-1");
             crypt.reset();
@@ -42,16 +70,13 @@ public class AuthController {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
+        user.setName(name);
+        user.setSurname(surname);
+        user.setPatronymic(patronymic);
         userRepository.save(user);
         user = userRepository.findOne(user.getId());
-        model.put("user", user);
+        model.addAttribute("user", user);
         return "userCreate";
-    }
-
-    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String welcome(Model model){
-        return "welcome";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/")

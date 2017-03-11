@@ -1,6 +1,8 @@
 package com.work.config;
 
+import com.work.service.Verify;
 import com.work.service.impl.UserDetailsServiceImpl;
+import com.work.service.impl.VerifyImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,6 +41,11 @@ public class ApplicationWebMvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public UserDetailsService getUserDetailsService(){
         return new UserDetailsServiceImpl();
+    }
+
+    @Bean
+    public Verify getVerify(){
+        return new VerifyImpl();
     }
 
 
