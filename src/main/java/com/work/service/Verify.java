@@ -8,4 +8,5 @@ public interface Verify {
     boolean isValidPhone(String phone);
     boolean isValidLogin(String login);
     boolean isValidPassword(String password);
+    boolean isValidEmail(String email);
 }

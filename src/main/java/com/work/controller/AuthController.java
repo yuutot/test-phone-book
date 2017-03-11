@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 /**
  * Created by yuuto on 3/10/17.
@@ -35,6 +33,7 @@ public class AuthController {
     public String register(Model model){
         return "register";
     }
+
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
     public String registerHandler(@RequestParam(value = "username") String username,
                                   @RequestParam(value = "password") String password,
@@ -58,7 +57,10 @@ public class AuthController {
         if(!verify.isValidName(patronymic)){
             return "error";
         }
-        User user = new User();
+        User user = userRepository.findByLogin(username).orElse(new User());
+        if(!user.equals(new User())){
+            return "error";
+        }
         user.setLogin(username);
         MessageDigest crypt;
         try {
@@ -77,11 +79,6 @@ public class AuthController {
         user = userRepository.findOne(user.getId());
         model.addAttribute("user", user);
         return "userCreate";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/")
-    public String homePage(Model model){
-        return "index";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/login")

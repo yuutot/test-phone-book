@@ -23,7 +23,12 @@
         <sec:authorize access="isAuthenticated()">
             <p>Ваш логин: <sec:authentication property="principal.username" /></p>
             <p><a class="btn btn-lg btn-danger" href="<c:url value="/logout" />" role="button">Выйти</a></p>
-
+            <c:forEach items="${phones}" var="phone">
+                <p>Name: ${phone.getName()} ${phone.getSurname()} ${phone.getPatronymic()}</p>
+                <p>Phone: ${phone.getMobilePhone()} Home: ${phone.getHomePhone()}</p>
+                <p>Address: ${phone.getAddress()}</p>
+                <p>Email: ${phone.getEmail()}</p>
+            </c:forEach>
         </sec:authorize>
 
 </div>

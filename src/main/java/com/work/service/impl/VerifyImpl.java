@@ -27,4 +27,10 @@ public class VerifyImpl implements Verify {
     public boolean isValidPassword(String password) {
         return password.length() >= 5;
     }
+
+    @Override
+    public boolean isValidEmail(String email) {
+        return Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$").matcher(email).matches();
+    }
 }
