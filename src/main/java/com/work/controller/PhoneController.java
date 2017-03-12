@@ -41,7 +41,7 @@ public class PhoneController {
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String homePage(Model model, Authentication authentication){
         if(authentication == null){
-            return "index";
+            return "login";
         }
         String userLogin = authentication.getName();
         User user = userRepository.findByLogin(userLogin).get();
