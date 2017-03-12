@@ -41,11 +41,25 @@ public class PhoneController {
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String homePage(Model model, Authentication authentication){
         if(authentication == null){
-            return "index";
+            return "login";
         }
         String userLogin = authentication.getName();
         User user = userRepository.findByLogin(userLogin).get();
         List<Phone> phones = phoneRepository.findByUser(user);
+        model.addAttribute("phones",phones);
+        return "index";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/search")
+    public String search(Model model,
+                         @RequestParam(value = "search") String searchString,
+                         Authentication authentication){
+        if(authentication == null){
+            return "login";
+        }
+        String userLogin = authentication.getName();
+        User user = userRepository.findByLogin(userLogin).get();
+        List<Phone> phones = phoneRepository.searchByExpr(user,searchString);
         model.addAttribute("phones",phones);
         return "index";
     }
@@ -67,28 +81,28 @@ public class PhoneController {
                                   Model model){
 
         if(!verify.isValidName(name)){
-            model.addAttribute("errorMessage", "Invalid name");
-            return "error";
+            model.addAttribute("errorName", "Invalid name");
+            return homePage(model, authentication);
         }
         if(!verify.isValidName(surname)){
-            model.addAttribute("errorMessage", "Invalid surname");
-            return "error";
+            model.addAttribute("errorSurname", "Invalid surname");
+            return homePage(model, authentication);
         }
         if(!verify.isValidName(patronymic)){
-            model.addAttribute("errorMessage", "Invalid patronymic");
-            return "error";
+            model.addAttribute("errorPatronymic", "Invalid patronymic");
+            return homePage(model, authentication);
         }
         if(!verify.isValidPhone(mobile)){
-            model.addAttribute("errorMessage", "Invalid format mobile phone. Format: +380(66)1234567");
-            return "error";
+            model.addAttribute("errorMobile", "Invalid format mobile phone. Format: +380(66)1234567");
+            return homePage(model, authentication);
         }
         if(!phone.isEmpty() && !verify.isValidPhone(phone)){
-            model.addAttribute("errorMessage", "Invalid format home phone. Format: +380(66)1234567");
-            return "error";
+            model.addAttribute("errorHome", "Invalid format home phone. Format: +380(66)1234567");
+            return homePage(model, authentication);
         }
         if(!email.isEmpty() && !verify.isValidEmail(email)){
-            model.addAttribute("errorMessage", "Invalid format email.");
-            return "error";
+            model.addAttribute("errorEmail", "Invalid format email.");
+            return homePage(model, authentication);
         }
 
         Phone entityPhone = new Phone();
@@ -116,6 +130,16 @@ public class PhoneController {
         model.addAttribute("phone",entityPhone);
         return "editPhone";
     }
+    @RequestMapping(value = "/removePhone/{id}", method = RequestMethod.GET)
+    public String removePhone(@PathVariable String id, Model model, Authentication authentication) {
+        Phone entityPhone = phoneRepository.findOne(Long.parseLong(id));
+        if(!entityPhone.getUser().getLogin().equals(authentication.getName())){
+            model.addAttribute("errorMessage", "You dont have permission");
+            return "error";
+        }
+        phoneRepository.delete(entityPhone);
+        return homePage(model, authentication);
+    }
 
     @RequestMapping(value = "/editPhoneHandler/{id}", method = RequestMethod.POST)
     public String editPhoneHandler(@RequestParam(value = "name") String name,
@@ -130,28 +154,28 @@ public class PhoneController {
                                      Model model){
 
         if(!verify.isValidName(name)){
-            model.addAttribute("errorMessage", "Invalid name");
-            return "error";
+            model.addAttribute("errorName", "Invalid name");
+            return editPhone(id,model,authentication);
         }
         if(!verify.isValidName(surname)){
-            model.addAttribute("errorMessage", "Invalid surname");
-            return "error";
+            model.addAttribute("errorSurname", "Invalid surname");
+            return editPhone(id,model,authentication);
         }
         if(!verify.isValidName(patronymic)){
-            model.addAttribute("errorMessage", "Invalid patronymic");
-            return "error";
+            model.addAttribute("errorPatronymic", "Invalid patronymic");
+            return editPhone(id,model,authentication);
         }
         if(!verify.isValidPhone(mobile)){
-            model.addAttribute("errorMessage", "Invalid format mobile phone. Format: +380(66)1234567");
-            return "error";
+            model.addAttribute("errorMobile", "Invalid format mobile phone. Format: +380(66)1234567");
+            return editPhone(id,model,authentication);
         }
         if(!phone.isEmpty() && !verify.isValidPhone(phone)){
-            model.addAttribute("errorMessage", "Invalid format home phone. Format: +380(66)1234567");
-            return "error";
+            model.addAttribute("errorHome", "Invalid format home phone. Format: +380(66)1234567");
+            return editPhone(id,model,authentication);
         }
         if(!email.isEmpty() && !verify.isValidEmail(email)){
-            model.addAttribute("errorMessage", "Invalid format email.");
-            return "error";
+            model.addAttribute("errorEmail", "Invalid format email.");
+            return editPhone(id,model,authentication);
         }
 
         Phone entityPhone = phoneRepository.findOne(Long.parseLong(id));

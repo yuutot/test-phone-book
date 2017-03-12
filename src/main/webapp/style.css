@@ -1,0 +1,115 @@
+.form-control,
+.btn-block{
+    margin-bottom: 8px;
+    border-radius: 0;
+}
+.form-control:focus{
+    outline: none;
+}
+.btn-registration{
+    border: none;
+    background: none;
+    color: black;
+    padding-right: 0;
+    font-size: 16px;
+    padding-left: 5px;
+}
+.reg-block{
+    text-align: right;
+    font-size: 16px;
+}
+body{
+    margin: 0;
+}
+header{
+    height: 40px;
+    background: black;
+    display: flex;
+}
+.user-info{
+    display: flex;
+    justify-content: flex-end;
+}
+.user-info div.log{
+    color: white;
+    font-size: 18px;
+    margin: 0;
+    width: 145px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.quit{
+    position: absolute;
+    top: 100%;
+    right: 10px;
+    width: 145px;
+    display: none;
+}
+.quit a{
+    width: 100%;
+    border-radius: 0;
+
+}
+.contact-item{
+    display: flex;
+    margin: 20px 0;
+    flex-direction: column;
+    border-bottom: 1px black solid;
+    padding-bottom: 10px;
+    width: 50%;
+}
+.c-name{
+    font-size: 18px;
+}
+.actions{
+    display: flex;
+}
+.actions a{
+    margin-right: 10px;
+}
+.add-cont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.add-cont a{
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+}
+.add-form{
+    position: absolute;
+    right: 33%;
+    transform: translateX(50%);
+
+}
+.form-s{
+    display: flex;
+    align-items: center;
+}
+.form-s input{
+    width: 60%;
+    /*float: left;*/
+    margin-right: 2px;
+    margin-bottom: 0;
+}
+.form-s button{
+    border-radius: 0;
+}
+.full-w{
+    width: 50%;
+}
+.input-d{
+    position: relative;
+}
+.error-msg{
+    position: absolute;
+    left: 103%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: red;
+    width: 60%;
+}

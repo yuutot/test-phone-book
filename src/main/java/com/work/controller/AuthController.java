@@ -43,29 +43,29 @@ public class AuthController {
                                   Model model){
 
         if(!verify.isValidLogin(username)){
-            model.addAttribute("errorMessage", "Invalid login");
-            return "error";
+            model.addAttribute("errorLogin", "Invalid login");
+            return register(model);
         }
         if(!verify.isValidPassword(password)){
-            model.addAttribute("errorMessage", "Invalid password");
-            return "error";
+            model.addAttribute("errorPassword", "Invalid password");
+            return register(model);
         }
         if(!verify.isValidName(name)){
-            model.addAttribute("errorMessage", "Invalid name");
-            return "error";
+            model.addAttribute("errorName", "Invalid name");
+            return register(model);
         }
         if(!verify.isValidName(surname)){
-            model.addAttribute("errorMessage", "Invalid surname");
-            return "error";
+            model.addAttribute("errorSurname", "Invalid surname");
+            return register(model);
         }
         if(!verify.isValidName(patronymic)){
-            model.addAttribute("errorMessage", "Invalid patronymic");
-            return "error";
+            model.addAttribute("errorPatronymic", "Invalid patronymic");
+            return register(model);
         }
         User user = userRepository.findByLogin(username).orElse(new User());
         if(!user.equals(new User())){
-            model.addAttribute("errorMessage", "This login is already exists");
-            return "error";
+            model.addAttribute("errorLogin", "This login is already exists");
+            return register(model);
         }
         user.setLogin(username);
         MessageDigest crypt;
@@ -82,9 +82,8 @@ public class AuthController {
         user.setSurname(surname);
         user.setPatronymic(patronymic);
         userRepository.save(user);
-        user = userRepository.findOne(user.getId());
-        model.addAttribute("user", user);
-        return "userCreate";
+        model.addAttribute("welcome", "Thx for registration, "+ name + " " + surname+".");
+        return "login";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/login")
