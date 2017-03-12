@@ -96,4 +96,21 @@ public class TestClass {
         Phone phoneTest = phoneRepository.findOne(phone.getId());
         Assert.assertEquals(phone,phoneTest);
     }
+
+    @Test
+    public void testSearch(){
+        User user = new User();
+        user.setLogin("Test");
+        userRepository.save(user);
+        Phone phone1 = new Phone();
+        Phone phone2 = new Phone();
+        phone1.setName("111");
+        phone1.setUser(user);
+        phone2.setName("222");
+        phone2.setUser(user);
+        phoneRepository.save(phone1);
+        phoneRepository.save(phone2);
+        List<Phone> phones = phoneRepository.searchByExpr(user,"11");
+        Assert.assertEquals(phones.size(), 1);
+    }
 }

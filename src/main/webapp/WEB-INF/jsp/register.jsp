@@ -10,6 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link href="<c:url value="../../bootstrap.css" />" rel="stylesheet">
+    <link href="<c:url value="../../style.css" />" rel="stylesheet">
+
 </head>
 
 <body>
@@ -22,12 +25,27 @@
         <c:url value="/reg" var="regUrl" />
         <form action="${regUrl}" method="post">
             <h2 class="form-signin-heading">Please register</h2>
-            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-            <input type="text" class="form-control" name="name" placeholder="Name" required>
-            <input type="text" class="form-control" name="surname" placeholder="Surname" required>
-            <input type="text" class="form-control" name="patronymic" placeholder="Patronymic" required>
-            <p><button type="submit">Войти</button></p>
+            <div class="input-d">
+                <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                <span class="error-msg">${errorLogin}</span>
+            </div>
+            <div class="input-d">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <span class="error-msg">${errorPassword}</span>
+            </div>
+            <div class="input-d">
+                <input type="text" class="form-control" name="name" placeholder="Name" required>
+                <span class="error-msg">${errorName}</span>
+            </div>
+            <div class="input-d">
+                <input type="text" class="form-control" name="surname" placeholder="Surname" required>
+                <span class="error-msg">${errorSurname}</span>
+            </div>
+            <div class="input-d">
+                <input type="text" class="form-control" name="patronymic" placeholder="Patronymic" required>
+                <span class="error-msg">${errorPatronymic}</span>
+            </div>
+            <p><button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button></p>
         </form>
     </div>
 </sec:authorize>
