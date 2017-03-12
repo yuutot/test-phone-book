@@ -43,22 +43,28 @@ public class AuthController {
                                   Model model){
 
         if(!verify.isValidLogin(username)){
+            model.addAttribute("errorMessage", "Invalid login");
             return "error";
         }
         if(!verify.isValidPassword(password)){
+            model.addAttribute("errorMessage", "Invalid password");
             return "error";
         }
         if(!verify.isValidName(name)){
+            model.addAttribute("errorMessage", "Invalid name");
             return "error";
         }
         if(!verify.isValidName(surname)){
+            model.addAttribute("errorMessage", "Invalid surname");
             return "error";
         }
         if(!verify.isValidName(patronymic)){
+            model.addAttribute("errorMessage", "Invalid patronymic");
             return "error";
         }
         User user = userRepository.findByLogin(username).orElse(new User());
         if(!user.equals(new User())){
+            model.addAttribute("errorMessage", "This login is already exists");
             return "error";
         }
         user.setLogin(username);

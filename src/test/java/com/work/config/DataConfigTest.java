@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableJpaRepositories("com.work.repository")
 @PropertySource({"classpath:application.properties"})
-class DataConfig {
+public class DataConfigTest {
 
     @Resource
     private Environment env;
@@ -47,7 +47,7 @@ class DataConfig {
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        jpaVendorAdapter.setDatabase(Database.MYSQL);
+        jpaVendorAdapter.setDatabase(Database.H2);
         jpaVendorAdapter.setGenerateDdl(true);
         return jpaVendorAdapter;
     }

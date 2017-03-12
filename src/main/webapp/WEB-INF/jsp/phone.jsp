@@ -21,7 +21,7 @@
     <div class="container" style="width: 300px;">
         <c:url value="/createPhoneHandler" var="Url" />
         <form action="${Url}" method="post">
-            <h2 class="form-signin-heading">Please register</h2>
+            <h2 class="form-signin-heading">Create phone</h2>
             <input type="text" class="form-control" name="name" placeholder="Name" required autofocus>
             <input type="text" class="form-control" name="surname" placeholder="Surname" required>
             <input type="text" class="form-control" name="patronymic" placeholder="Patronymic" required>
@@ -29,7 +29,7 @@
             <input type="tel" class="form-control" name="home" placeholder="Home phone">
             <input type="text" class="form-control" name="address" placeholder="Address">
             <input type="email" class="form-control" name="email" placeholder="Email">
-            <p><button type="submit">Войти</button></p>
+            <p><button type="submit">Создать</button></p>
         </form>
     </div>
 </sec:authorize>

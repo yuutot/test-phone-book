@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,21 +67,27 @@ public class PhoneController {
                                   Model model){
 
         if(!verify.isValidName(name)){
+            model.addAttribute("errorMessage", "Invalid name");
             return "error";
         }
         if(!verify.isValidName(surname)){
+            model.addAttribute("errorMessage", "Invalid surname");
             return "error";
         }
         if(!verify.isValidName(patronymic)){
+            model.addAttribute("errorMessage", "Invalid patronymic");
             return "error";
         }
         if(!verify.isValidPhone(mobile)){
+            model.addAttribute("errorMessage", "Invalid format mobile phone. Format: +380(66)1234567");
             return "error";
         }
         if(!phone.isEmpty() && !verify.isValidPhone(phone)){
+            model.addAttribute("errorMessage", "Invalid format home phone. Format: +380(66)1234567");
             return "error";
         }
         if(!email.isEmpty() && !verify.isValidEmail(email)){
+            model.addAttribute("errorMessage", "Invalid format email.");
             return "error";
         }
 
@@ -96,6 +103,69 @@ public class PhoneController {
         User user = userRepository.findByLogin(userLogin).get();
         entityPhone.setUser(user);
         phoneRepository.save(entityPhone);
-        return "index";
+        return homePage(model, authentication);
+    }
+
+    @RequestMapping(value = "/editPhone/{id}", method = RequestMethod.GET)
+    public String editPhone(@PathVariable String id, Model model, Authentication authentication) {
+        Phone entityPhone = phoneRepository.findOne(Long.parseLong(id));
+        if(!entityPhone.getUser().getLogin().equals(authentication.getName())){
+            model.addAttribute("errorMessage", "You dont have permission");
+            return "error";
+        }
+        model.addAttribute("phone",entityPhone);
+        return "editPhone";
+    }
+
+    @RequestMapping(value = "/editPhoneHandler/{id}", method = RequestMethod.POST)
+    public String editPhoneHandler(@RequestParam(value = "name") String name,
+                                     @RequestParam(value = "surname") String surname,
+                                     @RequestParam(value = "patronymic") String patronymic,
+                                     @RequestParam(value = "mobile") String mobile,
+                                     @RequestParam(value = "home",required = false) String phone,
+                                     @RequestParam(value = "address", required = false) String address,
+                                     @RequestParam(value = "email", required = false) String email,
+                                     @PathVariable String id,
+                                     Authentication authentication,
+                                     Model model){
+
+        if(!verify.isValidName(name)){
+            model.addAttribute("errorMessage", "Invalid name");
+            return "error";
+        }
+        if(!verify.isValidName(surname)){
+            model.addAttribute("errorMessage", "Invalid surname");
+            return "error";
+        }
+        if(!verify.isValidName(patronymic)){
+            model.addAttribute("errorMessage", "Invalid patronymic");
+            return "error";
+        }
+        if(!verify.isValidPhone(mobile)){
+            model.addAttribute("errorMessage", "Invalid format mobile phone. Format: +380(66)1234567");
+            return "error";
+        }
+        if(!phone.isEmpty() && !verify.isValidPhone(phone)){
+            model.addAttribute("errorMessage", "Invalid format home phone. Format: +380(66)1234567");
+            return "error";
+        }
+        if(!email.isEmpty() && !verify.isValidEmail(email)){
+            model.addAttribute("errorMessage", "Invalid format email.");
+            return "error";
+        }
+
+        Phone entityPhone = phoneRepository.findOne(Long.parseLong(id));
+        entityPhone.setName(name);
+        entityPhone.setSurname(surname);
+        entityPhone.setPatronymic(patronymic);
+        entityPhone.setMobilePhone(mobile);
+        entityPhone.setHomePhone(phone);
+        entityPhone.setAddress(address);
+        entityPhone.setEmail(email);
+        String userLogin = authentication.getName();
+        User user = userRepository.findByLogin(userLogin).get();
+        entityPhone.setUser(user);
+        phoneRepository.save(entityPhone);
+        return homePage(model, authentication);
     }
 }

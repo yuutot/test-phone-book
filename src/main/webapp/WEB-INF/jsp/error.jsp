@@ -10,6 +10,7 @@
 
     <div class="starter-template">
         <p>Error</p>
+        <p>${errorMessage}</p>
     </div>
 </div>
 
