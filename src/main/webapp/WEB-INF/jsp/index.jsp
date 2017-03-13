@@ -35,7 +35,10 @@
                                <button type="submit" class="btn btn-primary ">search</button>
                     </form>
                 <div class="col-md-4 user-info">
-                    <div class="log"><sec:authentication property="principal.username" />
+                    <div class="log">
+                        <p>
+                            <sec:authentication property="principal.username" />
+                        </p>
                         <div class="quit">
                             <a class="btn btn-lg btn-danger" href="<c:url value="/logout" />" role="button">Выйти</a>
                         </div>
@@ -108,18 +111,14 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script>
-    $('.user-info .log').mouseover(function () {
-        if (!$('.quit').hasClass('open')){
-            $('.quit').fadeIn();
-            $('.quit').addClass('open');
-        }
+    $('.log p').click(function () {
+
+            $('.quit').fadeToggle();
+
 
     })
 
-    $('.user-info .log').mouseout(function () {
-        $('.quit').removeClass('open')
-            .fadeOut();
-    })
+
 </script>
 </body>
 </html>
