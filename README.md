@@ -6,6 +6,7 @@
 5. H2DB, Spring test
 6. Lombok(Для коректного использования в IDE необходимо установить плагин)
 7. Maven
+8. Bootstrap
 
 За создание таблиц отвечает Hibernate. Необходимо ввести данные от Mysql-сервера в файле application.properties.
 
